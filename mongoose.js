@@ -25,13 +25,14 @@ const PostSchema = new Schema({
 	business: String,
 	location: String,
 	userName: String,
-	email: String,
-	title: String, 
+	email: String, 
 	body: String,
 	date: String,
 	imageRefs: Array,
 	comments: Array,
 	approved: Boolean,
+	tag: String,
+	notes: String,
 })
 
 const AdminSchema = new Schema({

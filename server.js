@@ -9,7 +9,7 @@ const moment = require('moment')
 const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream')
 const methodOverride = require('method-override')
-const { mongoose, AdminSchema, BusinessSchema, CommentSchema, EmailSchema, PostSchema } = require('./mongoose')
+const { mongoose, AdminSchema, CommentSchema, EmailSchema, PostSchema } = require('./mongoose')
 
 const myPort = process.env.PORT || 3000
 
@@ -30,11 +30,10 @@ let AdminModel
 let PostModel
 let EmailModel
 let CommentModel
-let BusinessModel
 
 
 if(myPort === 3000){
-	conn = mongoose.createConnection('mongodb://localhost/btb')
+	conn = mongoose.createConnection('mongodb://localhost/btb', { useNewUrlParser: true})
 	conn.once('open',() => {
 		gfs = Grid(conn.db, mongoose.mongo)
 		gfs.collection('uploads')
@@ -42,7 +41,6 @@ if(myPort === 3000){
 		PostModel = conn.model('post', PostSchema)
 		EmailModel = conn.model('email', EmailSchema)
 		CommentModel = conn.model('comment', CommentSchema)
-		BusinessModel = conn.model('business', BusinessSchema)
 	}).on('error', (error) => {
 		console.log(error)
 	})
@@ -83,10 +81,123 @@ const upload = multer({
 /*Routes*/
 
 app.get('/posts', (req, res) => {
-	PostModel.find({approved: true}).then(result => {
-		res.json(result)
+	PostModel.find({approved: true})
+	.then(result => {
+		let data = []
+		result.map((post, i) => {
+			data.unshift(post)
+		})
+		if(data.length <= 10){
+			res.json(data)
+		} else {
+			const payload = data.slice(0, 10)
+			res.json(payload)
+		}
 	})
-	.catch(err => console.log(err))
+	.catch(err => res.status(500).json({error: 'There was an error retreiving the posts'}))
+})
+
+app.get('/posts/:postsLength', (req, res) => {
+	PostModel.find({approved: true}).then(result => {
+		let data = []
+		result.map((post, i) => {
+			data.unshift(post)
+		})
+		if(data.length > req.params.postsLength){
+			let difference = data.length - req.params.postsLength
+			if(difference > 10) {
+				data.splice(0, req.params.postsLength)
+				const payload = data.slice(0, 10)
+				res.json(data)
+			} else {
+				data.splice(0, req.params.postsLength)
+				res.json(data)
+			}
+		} else {
+			res.json({
+				endOfPosts: true
+			})
+		}
+	})
+	.catch(err => res.status(500).json({error: 'There was an issue retrieving new posts'}))
+})
+
+app.get('/search/:query', (req, res) => {
+	PostModel.find({approved: true, business: req.params.query.toLowerCase()}, (err, file) => {
+		if(err || file.length === 0){
+			res.status(500).json({err: err})
+			return
+		}
+		let data = []
+		file.map((post, i) => {
+			data.unshift(post)
+		})
+		if(data.length <= 10){
+			res.json(data)
+		} else {
+			const payload = data.slice(0, 10)
+			res.json(payload)
+		}
+	})
+})
+
+app.post('/searchMore', (req, res) => {
+	PostModel.find({approved: true, business: req.body.business}, (err, file) => {
+		if(err || file.length === 0){
+			res.status(500).json({error: err})
+			return
+		}
+		let data = []
+		file.map((post, i) => {
+			data.unshift(post)
+		})
+		if(data.length > req.body.postsLength){
+			let difference = data.length - req.body.postsLength
+			if(difference > 10) {
+				data.splice(0, req.body.postsLength)
+				const payload = data.slice(0, 10)
+				res.json(data)
+			} else {
+				data.splice(0, req.body.postsLength)
+				res.json(data)
+			}
+		} else {
+			res.json({
+				endOfPosts: true
+			})
+		}
+	})
+})
+
+app.get('/restaurants', (req, res) => {
+	PostModel.find({approved: true}).then((result) => {
+		let data = []
+			result.map((r, i) => {
+				let business = data.find((rest) => {
+					return rest.business === r.business
+				})
+				if(business === undefined){
+					data.unshift({
+						business: r.business,
+						posts: 1,
+						locations: [r.location],
+						image: r.imageRefs[0]
+					})
+				} else {
+					let queriedLocation = business.locations.find((location) => {
+						return location === r.location
+					})
+					if(queriedLocation === undefined){
+						business.locations.unshift(r.location)
+						business.posts++
+					} else {
+						business.posts++
+					}
+				}
+			})
+		res.json(data)
+	})
+	.catch(err => res.status(500).json({error: 'There was an error'}))
 })
 
 app.get('/img/:filename', (req, res) => {
@@ -99,7 +210,8 @@ app.get('/img/:filename', (req, res) => {
 
 app.put('/login', (req, res) => {
 	const { adminName, password } = req.body
-	AdminModel.findOne({'adminName': adminName}).then((result) => {
+	AdminModel.findOne({'adminName': adminName})
+	.then((result) => {
 		if(result !== null) {
 			if(result.password === password){
 				res.send('Success')
@@ -111,36 +223,51 @@ app.put('/login', (req, res) => {
 		}
 
 	})
+	.catch(err => res.status(500).json({error: err}))
 })
 
 /* GET Un-approved posts*/
 app.get('/admin', (req, res) => {
-	PostModel.find({'approved': false}).then((result) => {
+	PostModel.find({'approved': false})
+	.then((result) => {
 		res.json(result)
 	})
+	.catch(err => res.status(500).json({error: err}))
 })
+
 
 /* DELETE POST */
 app.get('/delete/:post', (req, res) => {
 	console.log(req.params.post)
-	PostModel.findOneAndDelete({'_id': req.params.post})
-	.then(result => {
+
+	PostModel.findOneAndRemove({'_id': req.params.post}, (error, result) => {
+		if(error){
+			console.log('Cant find post', error)
+			return
+		}
 		result.imageRefs.map((r, i) => {
-			gfs.deleteOne({filename: r})
+			gfs.files.remove({filename: r} , (err, file) => {
+				if(err){
+					console.log('Theres been an error', err)
+					return 
+				}
+			})
 		})
-	}).then(res.send('Success'))
+	})
+	.then(res.send('Success'))
+	.catch(err => res.status(500).json({error: err}))
 })
 
 /* APPROVE POST */
 app.put('/approve', (req, res) => {
-	const { id, imageRefs } = req.body
-	PostModel.findOneAndUpdate({'_id': id}, {'approved': true})
+	const { id, imageRefs, tag, notes } = req.body
+	PostModel.findOneAndUpdate({'_id': id}, {'approved': true, 'tag': tag, 'notes': notes})
 	.then(res.send('Success'))
+	.catch(err => res.status(500).json({error: err}))
 })
 
 /* SUBMIT POST*/
 app.post('/submit', (req, res) => {
-	console.log(123)
 	upload(req, res, (err) => {
 		let imageRefs = []
 		req.files.forEach((file, i) => {
@@ -158,31 +285,23 @@ app.post('/submit', (req, res) => {
 			comments: [],
 			approved: false
 		})
-		BusinessModel.findOneAndUpdate({business: req.body.business.toLowerCase()}, {$push: {posts: newPost}})
-		.then((result) => {
-			if(result !== null) {
-				newPost.save()
-				.then(res.send('Thanks for your submission, all posts are manually moderated before posting'))
-				.catch(err => console.log(err))
-			} else {
-				const newBusiness = new BusinessModel({
-					business: req.body.business.toLowerCase(),
-					location: req.body.location.toLowerCase(),
-					posts: [newPost]
-				})
-				newBusiness.save()
-				.then(newPost.save())
-				.then(res.send('Thanks for your submission, all posts are manually moderated before posting'))
-				.catch(err => console.log(err))
-			}
-		})
+		newPost.save()
+		.then(res.send('Thanks for your submission, all posts are manually moderated before posting'))
+		.catch(err => res.status(500).json({err: 'Unable to post at the moment, please try again' }))
 	})
 })
 
 /*COMMENT ON POST*/
-app.put('/submit', (req, res) => {
-	console.log(req.body)
-	res.send('Success')
+app.put('/comment', (req, res) => {
+	const comment = {
+			userName: req.body.userName,
+			comment: req.body.comment,
+			date: moment().format("MM-DD-YYYY")
+		}
+	PostModel.findOneAndUpdate({_id: req.body.id}, {$push: {comments: comment}}, {new: true})
+	.then(result => res.json(result))
+	.catch(err => res.status(500).json({err: 'Unable to post comment'}))
+
 })
 
 app.post('/email', (req, res) => {
@@ -198,7 +317,7 @@ app.post('/email', (req, res) => {
 		console.log(123)
 		res.send('Thank you for contacting us, we will reach out ASAP')
 	})
-	.catch(err => res.status(400).send('There was an issue firing off that email, please try again.'))
+	.catch(err => res.status(500).json({error: 'There was an issue firing off that email, please try again.'}))
 })
 
 
