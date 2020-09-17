@@ -70,7 +70,7 @@ if(process.env.NODE_ENV === 'production') {
 	app.get('/admin', (req, res) => {
     	res.sendFile(path.resolve('client', 'build', 'index.html'))
   })
-	app.get('/restaurant', (req, res) => {
+	app.get('/restaurants', (req, res) => {
     	res.sendFile(path.resolve('client', 'build', 'index.html'))
   })
 }
