@@ -21,14 +21,14 @@ const AdminControls = ({setMessage}) => {
 	const [newPosts, setNewPosts] = useState([])
 
 	useEffect(() => {
-		fetch('https://btb-to.herokuapp.com/admin')
+		fetch('https://btb-to.herokuapp.com/api/admin')
 		.then(response => response.json())
 		.then(response => setNewPosts(response))
 	}, [])
 
 	const deletePost = (e, _id) => {
 		e.preventDefault()
-		fetch(`https://btb-to.herokuapp.com/${_id}`)
+		fetch(`https://btb-to.herokuapp.com/api/delete/${_id}`)
 		.then(response => response.text())
 		.then(response => {
 			if(response === 'Success'){
@@ -47,7 +47,7 @@ const AdminControls = ({setMessage}) => {
 	const approvePost = (e, _id, imageRefs, tag, notes) => {
 		if(tag !== '--Choice--'){
 			e.preventDefault()
-			fetch('https://btb-to.herokuapp.com/approve', {
+			fetch('https://btb-to.herokuapp.com/api/approve', {
 				method: 'put',
 				headers: {'Content-Type' : 'application/json'}, 
 				body: JSON.stringify({

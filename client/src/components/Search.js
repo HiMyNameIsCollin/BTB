@@ -9,7 +9,7 @@ const Search = ({searchInput, setSearchInput, location, setCurrentRoute, setMess
 	const [endOfPosts, setEndOfPosts] = useState(false)
 
 	useEffect(() => {
-			fetch(`https://btb-to.herokuapp.com/search/${searchInput}`)
+			fetch(`https://btb-to.herokuapp.com/api/search/${searchInput}`)
 			.then(response => response.json())
 			.then(response => {
 					setCurrentRoute(response[0].business)

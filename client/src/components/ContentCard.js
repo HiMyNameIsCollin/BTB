@@ -26,7 +26,7 @@ const ContentCard = ({post, type, approvePost, deletePost, posts, setPosts, setM
 			</h1>
 			<div className='post-Image-Container'> 
 				<p> {titleCase(business)} </p>
-				<img src={`http://localhost:3000/img/${displayedImage}`} alt='Restaurant' />
+				<img src={`https://btb-to.herokuapp.com/api/img/${displayedImage}`} alt='Restaurant' />
 			</div>
 			{
 				imageRefs.length > 1 ?
@@ -36,13 +36,13 @@ const ContentCard = ({post, type, approvePost, deletePost, posts, setPosts, setM
 							if(displayedImage === r) {
 								return(
 								<div className='selected-Image' key={i}>
-									<img onClick={()=> setImage(r)} src={`http://localhost:3000/img/${r}`} alt='piece of multimedia provided by user' />
+									<img onClick={()=> setImage(r)} src={`https://btb-to.herokuapp.com/api/img/${r}`} alt='piece of multimedia provided by user' />
 								</div>
 								 )								
 							} else{
 								return(
 								<div key={i}>
-									<img onClick={()=> setImage(r)} src={`http://localhost:3000/img/${r}`} alt='piece of multimedia provided by user' />
+									<img onClick={()=> setImage(r)} src={`https://btb-to.herokuapp.com/api/img/${r}`} alt='piece of multimedia provided by user' />
 								</div>
 								 )
 							}

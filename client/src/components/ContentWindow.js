@@ -16,7 +16,7 @@ const ContentWindow = ({Switch, Route, setMessage, useLocation, searchInput, set
 	useEffect(() => {
 		if(location.pathname === '/'){
 			setCurrentRoute('Trending')
-			fetch('https://btb-to.herokuapp.com/posts')
+			fetch('https://btb-to.herokuapp.com/api/posts')
 			.then(response => response.json())
 			.then(response => setPosts(response))
 			.catch(err => setMessage('There has been an error'))
@@ -41,7 +41,7 @@ const ContentWindow = ({Switch, Route, setMessage, useLocation, searchInput, set
 				{
 					posts.length > 9 && endOfPosts === false ?
 					<div onClick={() => {
-						fetch(`https://btb-to.herokuapp.com/${posts.length}`)
+						fetch(`https://btb-to.herokuapp.com/api/${posts.length}`)
 						.then(result => result.json())
 						.then(result => {
 							if(result.endOfPosts){

@@ -48,7 +48,7 @@ const CommentsWindow = ({post, openComments, focusInput, setFocusInput, comments
 
 	const submitComment = (e) => {
 		e.preventDefault()
-		fetch('https://btb-to.herokuapp.com/comment', {
+		fetch('https://btb-to.herokuapp.com/api/comment', {
 			method: 'put',
 			headers: { 'Content-Type' : 'application/json'},
 			body: JSON.stringify({

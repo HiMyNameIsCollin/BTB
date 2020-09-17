@@ -24,8 +24,8 @@ const Login = ({ setLoggedIn, setMessage }) => {
 
 	const handleLogin = (e) => {
 		e.preventDefault()
-		fetch('https://btb-to.herokuapp.com/login', {
-			method: 'put',
+		fetch('https://btb-to.herokuapp.com/api/login', {
+			method: 'post',
 			headers: {'Content-Type' : 'application/json'},
 			body: JSON.stringify({
 				adminName,

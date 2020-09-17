@@ -34,27 +34,27 @@ let CommentModel
 
 if(myPort === 3000){
 	require('dotenv').config()
-	conn = mongoose.createConnection(process.env.BTBDBKEY , { useNewUrlParser: true})
-	conn.once('open',() => {
-		gfs = Grid(conn.db, mongoose.mongo)
-		gfs.collection('uploads')
-		AdminModel = conn.model('admin', AdminSchema)
-		PostModel = conn.model('post', PostSchema)
-		EmailModel = conn.model('email', EmailSchema)
-		CommentModel = conn.model('comment', CommentSchema)
-	}).on('error', (error) => {
-		console.log(error)
-	})
-} else {
-	conn = mongoose.createConnection(process.env.BTBDBKEY, {useNewUrlParser: true})
+	conn = mongoose.createConnection(process.env.BTBDBKEY , { useNewUrlParser: true, useUnifiedTopology: true})
 	conn.once('open',() => {
 		console.log('DB connected')
 		gfs = Grid(conn.db, mongoose.mongo)
 		gfs.collection('uploads')
-		AdminModel = conn.model('admin', AdminSchema)
-		PostModel = conn.model('post', PostSchema)
-		EmailModel = conn.model('email', EmailSchema)
-		CommentModel = conn.model('comment', CommentSchema)
+		AdminModel = conn.model('admins', AdminSchema)
+		PostModel = conn.model('posts', PostSchema)
+		EmailModel = conn.model('emails', EmailSchema)
+		CommentModel = conn.model('comments', CommentSchema)
+	}).on('error', (error) => {
+		console.log(error)
+	})
+} else {
+	conn = mongoose.createConnection(process.env.BTBDBKEY, {useNewUrlParser: true, useUnifiedTopology: true})
+	conn.once('open',() => {
+		gfs = Grid(conn.db, mongoose.mongo)
+		gfs.collection('uploads')
+		AdminModel = conn.model('admins', AdminSchema)
+		PostModel = conn.model('posts', PostSchema)
+		EmailModel = conn.model('emails', EmailSchema)
+		CommentModel = conn.model('comments', CommentSchema)
 	}).on('error', (error) => {
 		console.log(error)
 	})
@@ -100,7 +100,7 @@ const upload = multer({
 
 /*Routes*/
 
-app.get('/posts', (req, res) => {
+app.get('/api/posts', (req, res) => {
 	PostModel.find({approved: true})
 	.then(result => {
 		let data = []
@@ -117,7 +117,7 @@ app.get('/posts', (req, res) => {
 	.catch(err => res.status(500).json({error: 'There was an error retreiving the posts'}))
 })
 
-app.get('/posts/:postsLength', (req, res) => {
+app.get('/api/posts/:postsLength', (req, res) => {
 	PostModel.find({approved: true}).then(result => {
 		let data = []
 		result.map((post, i) => {
@@ -142,7 +142,7 @@ app.get('/posts/:postsLength', (req, res) => {
 	.catch(err => res.status(500).json({error: 'There was an issue retrieving new posts'}))
 })
 
-app.get('/search/:query', (req, res) => {
+app.get('/api/search/:query', (req, res) => {
 	PostModel.find({approved: true, business: req.params.query.toLowerCase()}, (err, file) => {
 		if(err || file.length === 0){
 			res.status(500).json({err: err})
@@ -161,7 +161,7 @@ app.get('/search/:query', (req, res) => {
 	})
 })
 
-app.post('/searchMore', (req, res) => {
+app.post('/api/searchMore', (req, res) => {
 	PostModel.find({approved: true, business: req.body.business}, (err, file) => {
 		if(err || file.length === 0){
 			res.status(500).json({error: err})
@@ -189,7 +189,7 @@ app.post('/searchMore', (req, res) => {
 	})
 })
 
-app.get('/restaurants', (req, res) => {
+app.get('/api/restaurants', (req, res) => {
 	PostModel.find({approved: true}).then((result) => {
 		let data = []
 			result.map((r, i) => {
@@ -220,7 +220,7 @@ app.get('/restaurants', (req, res) => {
 	.catch(err => res.status(500).json({error: 'There was an error'}))
 })
 
-app.get('/img/:filename', (req, res) => {
+app.get('/api/img/:filename', (req, res) => {
 	gfs.files.findOne({filename: req.params.filename}, (err, file) => {
 		const readstream = gfs.createReadStream(file.filename)
 		readstream.pipe(res)
@@ -228,7 +228,7 @@ app.get('/img/:filename', (req, res) => {
 
 })
 
-app.put('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
 	const { adminName, password } = req.body
 	AdminModel.findOne({'adminName': adminName})
 	.then((result) => {
@@ -247,7 +247,7 @@ app.put('/login', (req, res) => {
 })
 
 /* GET Un-approved posts*/
-app.get('/admin', (req, res) => {
+app.get('/api/admin', (req, res) => {
 	PostModel.find({'approved': false})
 	.then((result) => {
 		res.json(result)
@@ -257,7 +257,7 @@ app.get('/admin', (req, res) => {
 
 
 /* DELETE POST */
-app.get('/delete/:post', (req, res) => {
+app.get('/api/delete/:post', (req, res) => {
 	PostModel.findOneAndRemove({'_id': req.params.post}, (error, result) => {
 		if(error){
 			console.log('Cant find post', error)
@@ -277,7 +277,7 @@ app.get('/delete/:post', (req, res) => {
 })
 
 /* APPROVE POST */
-app.put('/approve', (req, res) => {
+app.put('/api/approve', (req, res) => {
 	const { id, imageRefs, tag, notes } = req.body
 	PostModel.findOneAndUpdate({'_id': id}, {'approved': true, 'tag': tag, 'notes': notes})
 	.then(res.send('Success'))
@@ -285,7 +285,7 @@ app.put('/approve', (req, res) => {
 })
 
 /* SUBMIT POST*/
-app.post('/submit', (req, res) => {
+app.post('/api/submit', (req, res) => {
 	upload(req, res, (err) => {
 		let imageRefs = []
 		req.files.forEach((file, i) => {
@@ -310,7 +310,7 @@ app.post('/submit', (req, res) => {
 })
 
 /*COMMENT ON POST*/
-app.put('/comment', (req, res) => {
+app.put('/api/comment', (req, res) => {
 	const comment = {
 			userName: req.body.userName,
 			comment: req.body.comment,
