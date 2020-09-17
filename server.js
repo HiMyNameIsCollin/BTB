@@ -231,14 +231,12 @@ app.get('/api/restaurants', (req, res) => {
 })
 
 app.get('/api/img/:filename', (req, res) => {
-	gfs.files.findOne({filename: req.params.filename}, (err, file) => {
-		if(err || file.length === 0){
-			res.status(400).json({err: err})
-			return
-		}
+	gfs.files.findOne({filename: req.params.filename})
+	.then(result => {
 		const readstream = gfs.createReadStream(file.filename)
 		readstream.pipe(res)
 	})
+	.catch(err => res.json(err))
 
 })
 
