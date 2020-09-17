@@ -1,0 +1,291 @@
+/*#######################################################MEDIA QUERIES###################################################################*/
+
+
+@media only screen and (min-width: 371px)
+	#content-Feed
+		margin: 1em !important
+
+
+@media only screen and (max-width: 500px)
+	#userInteract
+		form
+			flex-direction: column
+			.submission-Form-Group
+				width: 100%
+
+@media only screen and (min-width: 670px)
+
+
+	#about
+		#quote-Container
+			flex-direction: row
+			width: 100%
+			#about-Quote
+				margin: 1em
+				width: 268px
+
+	#navWindow
+		width: 40%
+
+
+	#content-Feed
+		grid-column: 2/7 !important
+		margin: 1em auto
+		.contentCard
+			.post-Image-Container
+				p
+					display: none 
+					padding: .5em 1em
+				img
+					max-width: 50%
+			h1
+				display: block !important
+				padding: .5em 1em
+			.post-Text
+				margin: 0 .5em
+			.post-Other-Images-Container
+				div
+					margin: .3em !important
+
+
+
+	#userInteract
+		form
+			margin: 0 auto
+			width: 75%
+
+	#searchPage
+		flex-direction: row
+
+		
+@media only screen and (min-width: 796px)
+	#header
+		input
+		#logo-Text
+			display: inline-block
+			font-weight: 800
+			font-size: 1.5em
+			margin: auto .5em
+			min-width: 168px
+
+	#content-Feed
+		margin: 1em
+		grid-column: 2/6 !important
+		margin-left: 10%
+		#contentCard
+
+	#mission-Container
+		div
+			margin: 0 auto
+			width: 75%
+
+
+@media only screen and (min-width: 932px)
+	#header
+		#submit-Container
+			width: auto
+			#submit-Text
+				display: inline-block
+				font-weight: 700
+				margin: auto
+				padding-right: 1em
+
+
+@media only screen and (min-width: 1080px)
+
+	#about
+		#quote-Container
+			flex-direction: row
+			justify-content: space-around
+			margin: .5em auto
+			width: 100%
+			#about-Quote
+				width: auto
+				max-width: 268px
+
+	#mission-Container
+		div
+			width: 50%
+
+
+	#userInteract
+		form
+			margin: 0 auto
+			width: 50%
+
+
+
+
+
+@media only screen and (max-height: 500px)
+	#header
+		height: 12vh
+
+	#currentPage
+		height: 5vh
+
+	#navWindow
+		height: 88%
+
+	.menu-Icon
+		background-size: 40%
+	#userInteract
+		height: 88%
+
+@media only screen and (max-height: 450px)
+	#header
+		height: 14vh
+
+	#currentPage
+		height: 6vh
+
+	#navWindow
+		height: 86%
+	#userInteract
+		height: 86%
+
+@media only screen and (max-height: 400px)
+	#header
+		height: 15vh
+
+	#currentPage
+		display: none
+
+	#contentWindow
+		grid-row: 2/4
+
+	#navWindow
+		height: 85%
+
+	.menu-Icon
+		background-size: 35%
+
+	#userInteract
+		height: 85%
+
+@media only screen and (max-height: 350px)
+	#header
+		height: 16vh
+
+	#currentPage
+		height: none
+		
+	#contentWindow
+		grid-row: 2/4
+
+	.menu-Icon
+		background-size: 30%
+
+	#navWindow
+		height: 84%
+
+	#userInteract
+		height: 84%
+
+
+
+
+
+
+
+
+/*######################################################ANIMATIONS#################################################*/
+
+/*Menu Icon rotates open*/
+
+@keyframes hamOpen
+	0%
+		transform: rotate(0deg)
+	100%
+		transform: rotate(90deg)
+
+
+.hamOpen
+	animation: hamOpen 0.2s linear forwards
+
+/*Menu Icon rotates closed*/
+
+
+
+@keyframes hamClose
+	0%
+		transform: rotate(90deg)
+	100%
+		transform: rotate(0deg)
+
+
+.hamClose
+	animation: hamClose 0.2s linear forwards
+
+
+
+/**
+ * ----------------------------------------
+ * animation slide-in-left
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-left 
+  0% 
+    -webkit-transform: translateX(-1000px)
+            transform: translateX(-1000px)
+    opacity: 0
+  
+  100% 
+    -webkit-transform: translateX(0)
+            transform: translateX(0)
+    opacity: 1
+  
+
+@keyframes slide-in-left 
+  0% 
+    -webkit-transform: translateX(-1000px)
+            transform: translateX(-1000px)
+    opacity: 0
+  
+  100% 
+    -webkit-transform: translateX(0)
+            transform: translateX(0)
+    opacity: 1
+  
+
+.slide-in-left 
+	-webkit-animation: slide-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+    animation: slide-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+
+
+
+/**
+ * ----------------------------------------
+ * animation slide-out-left
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-out-left 
+  0% 
+    -webkit-transform: translateX(0)
+            transform: translateX(0)
+    opacity: 1
+  
+  100% 
+    -webkit-transform: translateX(-1000px)
+            transform: translateX(-1000px)
+    opacity: 0
+  
+
+@keyframes slide-out-left 
+  0% 
+    -webkit-transform: translateX(0)
+            transform: translateX(0)
+    opacity: 1
+  
+  100% 
+    -webkit-transform: translateX(-1000px)
+            transform: translateX(-1000px)
+    opacity: 0
+  
+
+
+
+
+.slide-out-left 
+	-webkit-animation: slide-out-left 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both
+	animation: slide-out-left 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both
