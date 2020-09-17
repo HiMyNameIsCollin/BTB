@@ -232,7 +232,7 @@ app.get('/api/restaurants', (req, res) => {
 
 app.get('/api/img/:filename', (req, res) => {
 	gfs.files.findOne({filename: req.params.filename})
-	.then(res => {
+	.then(file => {
 		const readstream = gfs.createReadStream(file.filename)
 		readstream.pipe(res)
 	})
