@@ -17,7 +17,7 @@ $clr6: #37393A
 	background: $clr5
 	display: grid
 	height: 100vh
-	grid-template-rows: auto 5vh 1fr
+	grid-template-rows: auto 5vh auto
 	position: relative
 
 
@@ -311,6 +311,9 @@ $clr6: #37393A
 						font-weight: 700
 			.post-Editor-Notes
 				background: $clr5
+				border-top: $clr1 solid 1px
+				border-bottom: $clr1 solid 1px
+				color: white
 				padding: .5em
 				p
 			
@@ -354,8 +357,12 @@ $clr6: #37393A
 				background: $clr1
 				cursor: pointer
 				display: flex
+				padding: 0 0.5em
 				span
 					margin: auto .5em
+				.post-Number-Comments
+					font-weight: 700
+					font-size: 0.8em
 				.post-showMore-Container
 					display: flex
 					margin: auto 0 auto auto
@@ -367,7 +374,7 @@ $clr6: #37393A
 						margin: auto 0
 						padding: 1.5em 1em
 					span
-						font-weight: 400
+						font-weight: 700
 						font-size: 0.8em
 						margin: auto 0
 
@@ -408,7 +415,10 @@ $clr6: #37393A
 			font-weight: 400
 	.comments-Card
 		background: $clr4
+		border-top: $clr1 solid 1px
+		border-bottom: $clr1 solid 1px
 		display: flex
+		margin: .5em
 		div
 			align-items: center
 			display: flex
@@ -425,8 +435,10 @@ $clr6: #37393A
 
 .comments-Window-Open
 	background: $clr4
-	display: block
+	display: flex
+	flex-direction: column
 	height: inherit
+	justify-content: space-between
 	max-height: 50vh
 	position: relative
 	overflow: auto
@@ -644,6 +656,8 @@ $clr6: #37393A
 		display: flex
 		flex-direction: column
 		margin: auto 
+		label
+			color: white
 		input
 			margin: .5em 0
 

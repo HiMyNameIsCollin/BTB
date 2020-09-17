@@ -17,6 +17,7 @@ const CommentsWindow = ({post, openComments, focusInput, setFocusInput, comments
 
 	const commentsContainerRef = useRef()
 	const commentInputRef = useRef()
+	const commentNameInputRef = useRef()
 
 	const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -65,6 +66,8 @@ const CommentsWindow = ({post, openComments, focusInput, setFocusInput, comments
 					p.comments = response.comments
 				}
 			})
+			commentNameInputRef.current.value = ''
+			commentInputRef.current.value = ''
 			setMessage('Thank you for participating')
 			setPosts(posts => posts = newState)
 			return
@@ -85,7 +88,7 @@ const CommentsWindow = ({post, openComments, focusInput, setFocusInput, comments
 				<span>
 					*Not required
 				</span>
-				<input onChange={onChange} className='comment-Name-Input' style={{width: '50%'}} name='userName' type='text'/>
+				<input onChange={onChange} ref={commentNameInputRef} className='comment-Name-Input' style={{width: '50%'}} name='userName' type='text'/>
 				<label style={{marginBottom: '0.7em', paddingTop: '1em'}} htmlFor='comment'> Your comment: </label>
 				<textarea onChange={onChange} ref={commentInputRef} name='comment'/>
 				<input onClick={submitComment} className='comment-Submit-Button' style={{width: '50%', margin: '1em auto auto auto', cursor: 'pointer'}} type='submit' value='Submit'/>

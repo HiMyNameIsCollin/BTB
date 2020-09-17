@@ -57,7 +57,7 @@ const ContentCard = ({post, type, approvePost, deletePost, posts, setPosts, setM
 			</div>
 			<article className='post-Text'>
 				<p>
-				<span> {userName}:</span> {body}
+				<span> {userName}</span>: {body}
 				</p>
 			</article>
 			{
