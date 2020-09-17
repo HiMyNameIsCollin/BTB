@@ -33,7 +33,8 @@ let CommentModel
 
 
 if(myPort === 3000){
-	conn = mongoose.createConnection('mongodb://localhost/btb', { useNewUrlParser: true})
+	require('dotenv').config()
+	conn = mongoose.createConnection(process.env.BTBDBKEY , { useNewUrlParser: true})
 	conn.once('open',() => {
 		gfs = Grid(conn.db, mongoose.mongo)
 		gfs.collection('uploads')
@@ -44,9 +45,25 @@ if(myPort === 3000){
 	}).on('error', (error) => {
 		console.log(error)
 	})
-
+} else {
+	conn = mongoose.createConnection(process.env.BTBDBKEY, {useNewUrlParser: true})
+	conn.once('open',() => {
+		console.log('DB connected')
+		gfs = Grid(conn.db, mongoose.mongo)
+		gfs.collection('uploads')
+		AdminModel = conn.model('admin', AdminSchema)
+		PostModel = conn.model('post', PostSchema)
+		EmailModel = conn.model('email', EmailSchema)
+		CommentModel = conn.model('comment', CommentSchema)
+	}).on('error', (error) => {
+		console.log(error)
+	})
 }
 
+
+if(process.env.NODE_ENV='production') {
+	app.use(express.static('client/build'))
+}
 
 
 
@@ -238,8 +255,6 @@ app.get('/admin', (req, res) => {
 
 /* DELETE POST */
 app.get('/delete/:post', (req, res) => {
-	console.log(req.params.post)
-
 	PostModel.findOneAndRemove({'_id': req.params.post}, (error, result) => {
 		if(error){
 			console.log('Cant find post', error)
