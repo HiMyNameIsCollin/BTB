@@ -74,7 +74,7 @@ if(process.env.NODE_ENV === 'production') {
 
 /* Set storage engine*/
 var storage = new GridFsStorage({
-  url: process.env.BTBDBKEY ,
+  url: process.env.BTBDBKEY,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {
@@ -223,6 +223,10 @@ app.get('/api/restaurants', (req, res) => {
 
 app.get('/api/img/:filename', (req, res) => {
 	gfs.files.findOne({filename: req.params.filename}, (err, file) => {
+		if(err || file.length === 0){
+			res.status(400).json({err: err})
+			return
+		}
 		const readstream = gfs.createReadStream(file.filename)
 		readstream.pipe(res)
 	})

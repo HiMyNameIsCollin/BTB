@@ -50,7 +50,7 @@ const ContentWindow = ({Switch, Route, setMessage, useLocation, searchInput, set
 								setPosts(posts => [...posts, ...result])
 							}
 						})
-						.catch(err => setMessage('There has been an error'))
+						.catch(err => setMessage('There has been an error!'))
 					}} className='see-More'>
 						<span> See more posts </span>
 					</div>:
