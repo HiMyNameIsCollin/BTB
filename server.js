@@ -44,11 +44,12 @@ if(myPort === 3000){
 		EmailModel = conn.model('emails', EmailSchema)
 		CommentModel = conn.model('comments', CommentSchema)
 	}).on('error', (error) => {
-		console.log(error)
+		console.log('db error' error)
 	})
 } else {
 	conn = mongoose.createConnection(process.env.MONGODB_URI || process.env.BTBDBKEY, {useNewUrlParser: true, useUnifiedTopology: true})
 	conn.once('open',() => {
+		console.log('DB connected123')
 		gfs = Grid(conn.db, mongoose.mongo)
 		gfs.collection('uploads')
 		AdminModel = conn.model('admins', AdminSchema)
@@ -56,7 +57,7 @@ if(myPort === 3000){
 		EmailModel = conn.model('emails', EmailSchema)
 		CommentModel = conn.model('comments', CommentSchema)
 	}).on('error', (error) => {
-		console.log(error)
+		console.log('Db PRODO didnt connect' error)
 	})
 }
 
