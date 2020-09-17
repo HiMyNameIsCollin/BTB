@@ -34,7 +34,7 @@ let CommentModel
 
 if(myPort === 3000){
 	require('dotenv').config()
-	conn = mongoose.createConnection(process.env.BTBDBKEY , { useNewUrlParser: true, useUnifiedTopology: true})
+	conn = mongoose.createConnection(process.env.MONGODB_URI || process.env.BTBDBKEY , { useNewUrlParser: true, useUnifiedTopology: true})
 	conn.once('open',() => {
 		console.log('DB connected')
 		gfs = Grid(conn.db, mongoose.mongo)
@@ -47,7 +47,7 @@ if(myPort === 3000){
 		console.log(error)
 	})
 } else {
-	conn = mongoose.createConnection(process.env.BTBDBKEY, {useNewUrlParser: true, useUnifiedTopology: true})
+	conn = mongoose.createConnection(process.env.MONGODB_URI || process.env.BTBDBKEY, {useNewUrlParser: true, useUnifiedTopology: true})
 	conn.once('open',() => {
 		gfs = Grid(conn.db, mongoose.mongo)
 		gfs.collection('uploads')
