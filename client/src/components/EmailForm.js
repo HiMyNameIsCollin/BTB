@@ -36,7 +36,7 @@ const EmailForm = ({message, setMessage, setUserInteract}) => {
 			emptyArray.forEach((ele, i) => {
 				ele.classList.remove('required-Missed')
 			})
-			fetch('http://localhost:3000/email', {
+			fetch('https://btb-to.herokuapp.com/email', {
 				method: 'post',
 				headers: { 'Content-Type' : 'application/json'},
 				body: JSON.stringify({

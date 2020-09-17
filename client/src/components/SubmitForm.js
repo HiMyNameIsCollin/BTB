@@ -35,7 +35,7 @@ const SubmitForm = ({Link, setMessage, setUserInteract}) => {
 					ele.classList.remove('required-Missed')
 				})
 				const formElem = document.getElementById('submissionForm')
-				fetch('http://localhost:3000/submit', {
+				fetch('https://btb-to.herokuapp.com/submit', {
 					method: 'post',
 					body: new FormData(formElem)
 				})
