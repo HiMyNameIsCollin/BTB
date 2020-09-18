@@ -216,13 +216,15 @@ $clr6: #37393A
 	display: grid
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
 	height: 100%
-	overflow: scroll
+	position: relative
+	overflow: auto
 	overflow-x: hidden
 	width: 100%
 	#content-Feed
 		display: flex
 		flex-direction: column
 		grid-column: 1/9
+		height: auto
 		margin: 1em 0
 		.see-More
 			background: $clr1
@@ -419,6 +421,7 @@ $clr6: #37393A
 		border-bottom: $clr1 solid 1px
 		display: flex
 		margin: .5em
+		min-height: 5em
 		div
 			align-items: center
 			display: flex

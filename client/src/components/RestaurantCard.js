@@ -12,7 +12,7 @@ const RestaurantCard = ({post, setSearchInput}) => {
 				history.push('/search')
 			}}> 
 				<div className='search-Image'>
-				<img src={`http://localhost:3000/img/${post.image}`} alt='Posts images' />
+				<img src={`https://btb-to.herokuapp.com/api/img/${post.image}`} alt='Posts images' />
 				</div>
 				<p style={{fontSize: '1em', paddingLeft: '.8em'}}> {titleCase(post.business)}</p>
 				{
