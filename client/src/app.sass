@@ -22,9 +22,10 @@ html
 #appContainer 
 	background: $clr5
 	display: grid
+	grid-template-rows: auto 5vh auto
 	height: 100vh
 	max-height: 100vh
-	grid-template-rows: auto 5vh auto
+	position: fixed
 
 
 /*##############################################MESSAGE OVERLAY ###############################################################*/
@@ -222,14 +223,14 @@ html
 	display: grid
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
 	height: 100%
-	overflow: auto
+	overflow-y: auto
 	overflow-x: hidden
 	width: 100%
 	#content-Feed
 		display: flex
 		flex-direction: column
 		grid-column: 1/9
-		height: auto
+		height: 100%
 		margin: 1em 0
 		.see-More
 			background: $clr1
