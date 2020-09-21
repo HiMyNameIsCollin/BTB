@@ -13,8 +13,10 @@ $clr6: #37393A
 	box-sizing: border-box
 	font-family: 'Open Sans', sans-serif
 
-body, html
-	height: 100%
+body
+	height: 100vh
+html
+	height: 100vh
 
 	
 #appContainer 
@@ -22,7 +24,6 @@ body, html
 	display: grid
 	height: 100vh
 	max-height: 100vh
-	overflow: hidden
 	grid-template-rows: auto 5vh auto
 	position: relative
 
@@ -225,14 +226,12 @@ body, html
 	overflow: auto
 	overflow-x: hidden
 	width: 100%
-	z-index: 2
 	#content-Feed
 		display: flex
 		flex-direction: column
 		grid-column: 1/9
 		height: 100%
 		margin: 1em 0
-		z-index: 3
 		.see-More
 			background: $clr1
 			cursor: pointer
