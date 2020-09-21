@@ -122,7 +122,7 @@ const SubmitForm = ({Link, setMessage, setUserInteract}) => {
 				<span> * Required </span>
 			</div>
 			<div className='submission-Terms-Group' style={{flexDirection: 'row'}}>
-				<input className='required' onClick={()=> setTermsAccepted(!termsAccepted)} type='radio' style={{marginRight: '1em'}}/>
+				<input className='required' onClick={()=> setTermsAccepted(!termsAccepted)} type='checkbox' style={{marginRight: '1em'}}/>
 				<p> By checking this checkbox, I hereby indicate that I have read and understood and agree to be bound by <Link to='/terms'> Behind the Bars' Terms of Service.</Link> </p>
 			</div>
 			<input className='submission-Submit' type='Submit' defaultValue='Submit' onClick={handleFormSubmit}/>

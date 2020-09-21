@@ -25,7 +25,7 @@ body
 	display: grid
 	height: 100vh
 	max-height: 100vh
-	grid-template-rows: auto 5vh auto
+	grid-template-rows: 10vh 5vh auto
 	position: relative
 
 
@@ -471,6 +471,7 @@ body
 	display: flex
 	flex-direction: column
 	height: 90%
+	overflow: auto
 	padding: 0 1em 2em 1em
 	position: absolute
 	right: 0
@@ -491,7 +492,6 @@ body
 		height: auto
 		justify-content: space-between
 		position: relative
-		overflow: auto
 		width: 100%
 		.submission-Image-Group
 			color: white
@@ -499,7 +499,7 @@ body
 			flex-direction: column
 			font-weight: 700
 			margin: .5em auto
-			position: relative
+			position: static
 			width: 100%
 			input
 				margin: .5em 0
@@ -523,13 +523,14 @@ body
 			flex-direction: column
 			font-weight: 700
 			margin: .5em auto
-			position: relative
-			width: 100%
+			position: static
+			width: 90%
 			input
 				color: $clr1
+				background: white
 				margin: .5em 0
-				min-height: 3em
-				-webkit-appearance: none
+				min-height: 25px
+				min-width: 25px
 			span
 				border: none
 				color: red
