@@ -14,17 +14,19 @@ $clr6: #37393A
 	font-family: 'Open Sans', sans-serif
 
 body
-	height: 100vh
-html
-	height: 100vh
+	height: 100%
+
+body
+	height: 100%
 
 	
 #appContainer 
 	background: $clr5
 	display: grid
-	grid-template-rows: auto 5vh auto
 	height: 100vh
-	position: fixed
+	max-height: 100vh
+	grid-template-rows: auto 5vh auto
+	position: relative
 
 
 /*##############################################MESSAGE OVERLAY ###############################################################*/
@@ -222,7 +224,7 @@ html
 	display: grid
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr
 	height: 100%
-	overflow-y: auto
+	overflow: auto
 	overflow-x: hidden
 	width: 100%
 	#content-Feed
