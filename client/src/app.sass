@@ -405,6 +405,7 @@ body
 	max-height: 50vh
 	position: relative
 	overflow: auto
+	overflow-x: hidden
 	width: 100%
 	.comments-Form
 		display: flex
@@ -445,9 +446,11 @@ body
 		background: $clr4
 		border-top: $clr1 solid 1px
 		border-bottom: $clr1 solid 1px
-		display: flex
+		display: inline-flex
 		margin: .5em
+		overflow: hidden
 		min-height: 5em
+		width: 100%
 		div
 			align-items: center
 			display: flex
@@ -461,6 +464,9 @@ body
 				text-align: center
 		p
 			padding: .5em
+			overflow-wrap: break-word
+			overflow: hidden
+			width: 100%
 
 
 /*##################################################################USER INTERACTION WINDOW ###############################*/
@@ -521,7 +527,6 @@ body
 			font-weight: 700
 			height: auto
 			margin: .5em auto
-			position: static
 			width: 90%
 			input
 				color: $clr1
