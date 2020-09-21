@@ -80,11 +80,13 @@ const CommentsWindow = ({post, openComments, focusInput, setFocusInput, comments
 
 	return(
 		<div ref={commentsContainerRef} className='comments-Window'>
+			<div>
 			{
 				comments.map((comment, i)=> {
 					return <CommentsCard comment={comment} key={i} />
 				})
 			}
+			</div>
 			<form className='comments-Form' onSubmit={submitComment}> 
 				<label htmlFor='userName'> Name: </label>
 				<span>
