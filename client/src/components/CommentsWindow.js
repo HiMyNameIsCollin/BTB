@@ -91,7 +91,7 @@ const CommentsWindow = ({post, openComments, focusInput, setFocusInput, comments
 				<input onChange={onChange} ref={commentNameInputRef} className='comment-Name-Input' style={{width: '50%'}} name='userName' type='text'/>
 				<label style={{marginBottom: '0.7em', paddingTop: '1em'}} htmlFor='comment'> Your comment: </label>
 				<textarea onChange={onChange} ref={commentInputRef} name='comment'/>
-				<input onClick={submitComment} className='comment-Submit-Button' style={{width: '50%', margin: '1em auto auto auto', cursor: 'pointer'}} type='submit' value='Submit'/>
+				<input onClick={submitComment} className='comment-Submit-Button' type='submit' value='Submit'/>
 			</form>
 		</div>
 	)
