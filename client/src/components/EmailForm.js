@@ -79,18 +79,22 @@ const EmailForm = ({message, setMessage, setUserInteract}) => {
 			<div className='submission-Form-Group'>
 				<label htmlFor='userName'> Your name</label>
 				<input className ='required' type='text' name='userName' value={userName} onChange={onChange} /> 
+				<span> * Required </span>
 			</div>
 			<div className='submission-Form-Group'>
 				<label htmlFor='phone'> Your phone number </label>
 				<input className ='required' type='text' name='phone' value={phone}  onChange={onChange}/> 
+				<span> * Required </span>
 			</div>
 			<div className='submission-Form-Group'>
 				<label htmlFor='userAddress'> Your email</label>
 				<input className ='required' type='text' name='userAddress' value={userAddress}  onChange={onChange}/> 
+				<span> * Required </span>
 			</div>
 			<div className='submission-Form-Group' style={{width: '100%'}}>
 				<label htmlFor='email'> Your concerns </label>
 				<textarea style={{minHeight: '4em'}} className='required' name='email' value={email}  onChange={onChange} required/>
+				<span> * Required </span>
 			</div>
 			<input className='submission-Submit' type='Submit' value='Submit' onClick={handleEmailSubmit}/>
 		</form>
