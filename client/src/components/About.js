@@ -28,7 +28,7 @@ const About = ({setCurrentRoute}) => {
 					<p> Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah Lorem Lipsum blah  </p>
 				</div>
 			</div>
-			<div className='list-Header'>
+			<div className='list-Header' style={{background: '#c5b358'}}>
 				 © Behind the Bar 2020 
 			</div>
 		</div>
